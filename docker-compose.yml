@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  shop-api-items-rust:
+    image: shop-api-items-rust
+    ports:
+      - 17080:12080
+    networks:
+      - shop-api-network
+    depends_on:
+      - db
+    restart: always
+    environment:
+      # - MYSQL_CONNECTION_STRING=mysql://shop-api:shop-api@db:3306/shop-api
+      - MYSQL_CONNECTION_STRING=mysql://QGjNHaxusH:jp3O1KNm7C@remotemysql.com:3306/QGjNHaxusH
+
+
+
+networks:
+  shop-api-network:
+volumes:
+  db_data:

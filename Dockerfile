@@ -18,5 +18,5 @@ RUN cargo build --target x86_64-unknown-linux-musl --release
 
 # FROM debian
 FROM scratch
-COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/shop-project-api-items-rust /app
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/app /app
 CMD ["/app"]

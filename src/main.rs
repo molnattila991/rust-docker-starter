@@ -6,11 +6,12 @@ use serde::Serialize;
 use std::env;
 
 #[derive(Serialize)]
-struct Product {
+struct Item {
     id: u64,
-    code: String,
+    title: String,
+    description: String,
     price: f32,
-    product_name: String,
+    category_id: String,
 }
 
 pub struct AppState {
@@ -27,13 +28,14 @@ pub async fn get_list(data: web::Data<AppState>) -> impl Responder {
     let mut conn = data.pool.get_conn().unwrap();
 
     let res = conn.query_map(
-        "select product_id, product_code, price, name from PRODUCT",
-        |(product_id, product_code, price, name)| 
-          Product {
-                id: product_id,
-                code: product_code,
+        "select id, title, description, price, category_id from items",
+        |(id, title, description, price, category_id)| 
+        Item {
+                id: id,
+                title: title,
+                description: description,
                 price: price,
-                product_name: name
+                category_id: category_id
             }
     ).expect("Query failed.");
      
@@ -52,6 +54,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(app_data.clone())
             .service(say_hello)
+            .service(get_list)
     })
     .workers(4)
     .bind("0.0.0.0:12080")?

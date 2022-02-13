@@ -2,22 +2,48 @@ version: '3'
 
 services:
 
-  shop-api-items-rust:
-    image: shop-api-items-rust
+  api-items-rust:
+    image: api-items-rust
     ports:
-      - 17080:12080
+      - 15080:12080
     networks:
-      - shop-api-network
+      - shop-app-network
     depends_on:
       - db
     restart: always
     environment:
-      # - MYSQL_CONNECTION_STRING=mysql://shop-api:shop-api@db:3306/shop-api
-      - MYSQL_CONNECTION_STRING=mysql://QGjNHaxusH:jp3O1KNm7C@remotemysql.com:3306/QGjNHaxusH
+      - MYSQL_CONNECTION_STRING=mysql://shop-api:shop-api@db:3306/shop-api
+      # - MYSQL_CONNECTION_STRING=mysql://QGjNHaxusH:jp3O1KNm7C@remotemysql.com:3306/QGjNHaxusH
 
-
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: shop-api
+      MYSQL_USER: shop-api
+      MYSQL_PASSWORD: shop-api
+    networks:
+      - shop-app-network
+    ports:
+      - 3306:3306
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password 
+    networks:
+      - shop-app-network
 
 networks:
-  shop-api-network:
+  shop-app-network:
 volumes:
   db_data:

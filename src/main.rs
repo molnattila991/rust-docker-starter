@@ -1,9 +1,20 @@
+use actix_web::dev::Service;
+use actix_web::http::Error;
+use actix_web::dev::ServiceRequest;
 use mysql::prelude::Queryable;
 use actix_web::{get, web, App, HttpServer, HttpResponse, Responder};
 use mysql::Opts;
 use mysql::Pool;
 use serde::Serialize;
 use std::env;
+
+async fn validator(req: ServiceRequest) -> Result<ServiceRequest, Error> {
+    let config = req.headers();
+    let valami = config.get("Authorization");
+    println!("{}", valami.unwrap().to_str().unwrap());
+
+    return Ok(req);
+}
 
 #[derive(Serialize)]
 struct Item {
@@ -42,6 +53,9 @@ pub async fn get_list(data: web::Data<AppState>) -> impl Responder {
     web::Json(res)
 }
 
+mod middleware;
+use middleware::say_hi_middleware::{SayHi};
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let mysql_connection_string = env::var("MYSQL_CONNECTION_STRING");
@@ -52,6 +66,7 @@ async fn main() -> std::io::Result<()> {
     let app_data = web::Data::new(AppState { pool: pool });
     HttpServer::new(move || {
         App::new()
+            .wrap(SayHi)
             .app_data(app_data.clone())
             .service(say_hello)
             .service(get_list)

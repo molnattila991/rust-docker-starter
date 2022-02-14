@@ -15,6 +15,20 @@ services:
       - MYSQL_CONNECTION_STRING=mysql://shop-api:shop-api@db:3306/shop-api
       # - MYSQL_CONNECTION_STRING=mysql://QGjNHaxusH:jp3O1KNm7C@remotemysql.com:3306/QGjNHaxusH
 
+  auth-api-dotnet:
+    image: auth-api-dotnet
+    ports:
+      - 16080:80
+    networks:
+      - shop-app-network
+    depends_on:
+      - db
+    # restart: always
+    environment:
+      - CONNECTION_STRING=server=db;port=3306;user=root;password=password;database=auth-db
+      # - CONNECTION_STRING=mysql://QGjNHaxusH:jp3O1KNm7C@remotemysql.com:3306/QGjNHaxusH
+
+
   db:
     image: mysql:5.7
     volumes:

@@ -1,20 +1,9 @@
-use actix_web::dev::Service;
-use actix_web::http::Error;
-use actix_web::dev::ServiceRequest;
 use mysql::prelude::Queryable;
 use actix_web::{get, web, App, HttpServer, HttpResponse, Responder};
 use mysql::Opts;
 use mysql::Pool;
 use serde::Serialize;
 use std::env;
-
-async fn validator(req: ServiceRequest) -> Result<ServiceRequest, Error> {
-    let config = req.headers();
-    let valami = config.get("Authorization");
-    println!("{}", valami.unwrap().to_str().unwrap());
-
-    return Ok(req);
-}
 
 #[derive(Serialize)]
 struct Item {

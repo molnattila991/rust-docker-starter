@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:15080
+@rootEndpoint = /user
+
+###
+GET {{baseUrl}}/jsonList
+
+###
+GET {{baseUrl}}/jsonList
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLaWF6bWl0YWthciIsImp0aSI6IjI0NWQ3Mzk1LTE4ZTAtNDlmZi05ODRlLTU1ODM5YjY2YzgzNCIsImVtYWlsIjoia2lhem1pdGFrYXJAZ21haWwuY29tIiwidWlkIjoiYThmOGZiOWEtOGYyZS00ZWVkLTlmYTUtYTkxOTYwNjdlMGUwIiwicm9sZXMiOiJVc2VyIiwiZXhwIjoxNjQ0ODY0MDQwLCJpc3MiOiJTZWN1cmVBcGkiLCJhdWQiOiJTZWN1cmVBcGlVc2VyIn0.emGY4uXVEX-Ar4rS8Sle62fQ2DBmmF73fu_KUcCBiSc

@@ -56,6 +56,10 @@ where
     fn call(&mut self, req: ServiceRequest) -> Self::Future {
         println!("Hi from start. You requested: {}", req.path());
 
+        let config = req.headers();
+        let valami = config.get("Authorization");
+        println!("{}", valami.unwrap().to_str().unwrap());
+        
         let fut = self.service.call(req);
 
         Box::pin(async move {
